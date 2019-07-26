@@ -2,7 +2,6 @@ import React from 'react'
 
 class Table extends React.Component {
   render() {
-    console.log("rendering")
     return (
       <table className='table'>
         <thead>
