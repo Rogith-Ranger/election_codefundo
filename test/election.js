@@ -13,7 +13,7 @@ contract("Election",function(accounts){
       return electionInstance.candidates(2);
     }).then(function(candidate) {
       assert.equal(candidate[0], 2, "contains the correct id");
-      assert.equal(candidate[1], "RoTam", "contains the correct name");
+      assert.equal(candidate[1], "Candidate 2", "contains the correct name");
       assert.equal(candidate[2], 0, "contains the correct votes count");
     });
   });
