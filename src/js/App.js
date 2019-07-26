@@ -33,15 +33,20 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData(){
     this.web3.eth.getCoinbase((err, account) => {
       this.setState({ account })
       this.election.deployed().then((electionInstance) => {
         this.electionInstance = electionInstance
         this.watchEvents()
         this.electionInstance.candidatesCount().then((candidatesCount) => {
+          const candidates = []
           for (var i = 1; i <= candidatesCount; i++) {
             this.electionInstance.candidates(i).then((candidate) => {
-              const candidates = [...this.state.candidates]
+              
               candidates.push({
                 id: candidate[0],
                 name: candidate[1],
@@ -59,7 +64,6 @@ class App extends React.Component {
   }
 
   watchEvents() {
-    // TODO: trigger event when vote is counted, not when component renders
     this.electionInstance.votedEvent({}, {
       fromBlock: 0,
       toBlock: 'latest'
@@ -72,7 +76,7 @@ class App extends React.Component {
     this.setState({ voting: true })
     this.electionInstance.vote(candidateId, { from: this.state.account }).then((result) =>
       this.setState({ hasVoted: true })
-    )
+    ).then(()=>{this.fetchData();})
   }
 
   render() {
