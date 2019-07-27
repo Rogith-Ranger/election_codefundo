@@ -74,16 +74,17 @@ class App extends React.Component {
 
   castVote(candidateId) {
     this.setState({ voting: true })
-    this.electionInstance.vote(candidateId, { from: this.state.account }).then((result) =>
+    this.electionInstance.vote(candidateId, { from: this.state.account }).then((result) =>{
+    console.log(result)
       this.setState({ hasVoted: true })
-    ).then(()=>{this.fetchData();})
+     }).then(()=>{this.fetchData();})
   }
 
   render() {
     return (
       <div className='row'>
         <div className='col-lg-12 text-center' >
-          <h1>Election Results</h1>
+          <h1>Election</h1>
           <br/>
           { this.state.loading || this.state.voting
             ? <p className='text-center'>Loading...</p>
