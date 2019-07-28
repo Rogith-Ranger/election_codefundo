@@ -12,7 +12,7 @@ drawchart = () =>{
     const candidates=[];
     this.props.candidates.forEach(candidate=>{
        const dict = {};
-        dict["name"] = candidate.name;
+        dict["party"] = candidate.party;
         dict["voteCount"] = candidate.voteCount.toNumber();
         candidates.push(dict);
     })
@@ -37,7 +37,7 @@ var svg = d3.select("#barchart").append("svg")
     d.voteCount = +d.voteCount;
   });
   var color = d3.scaleOrdinal(d3.schemeCategory10);
-  x.domain(candidates.map(function(d) { return d.name; }));
+  x.domain(candidates.map(function(d) { return d.party; }));
   y.domain([0, d3.max(candidates, function(d) { return d.voteCount; })]);
 
   svg.selectAll(".bar")
@@ -45,7 +45,7 @@ var svg = d3.select("#barchart").append("svg")
     .enter().append("rect")
       .attr("class", "bar")
       .style("fill",function(d){return color(d.voteCount)})
-      .attr("x", function(d) { return x(d.name); })
+      .attr("x", function(d) { return x(d.party); })
       .attr("width", x.bandwidth())
       .attr("y", function(d) { return y(d.voteCount); })
       .attr("height", function(d) { return height - y(d.voteCount); });

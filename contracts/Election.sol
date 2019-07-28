@@ -5,6 +5,7 @@ contract Election {
     struct Candidate {
     	uint id;
     	string name;
+		string party;
     	uint voteCount;
     }
     
@@ -18,16 +19,16 @@ contract Election {
     	);
 
     constructor () public {
-   		addCandidate("Candidate 1");
-   		addCandidate("Candidate 2");
-		addCandidate("Candidate 3");
-   		addCandidate("Candidate 4");
-		addCandidate("Candidate 5");
+   		addCandidate("Candidate 1","Party 1");
+   		addCandidate("Candidate 2","Party 2");
+		addCandidate("Candidate 3","Party 3");
+   		addCandidate("Candidate 4","Party 4");
+		addCandidate("Candidate 5","Party 5");
     }
 
-    function addCandidate (string memory _name) private {
+    function addCandidate (string memory _name,string memory _party) private {
     	candidatesCount ++;
-    	candidates[candidatesCount] = Candidate(candidatesCount,_name,0);
+    	candidates[candidatesCount] = Candidate(candidatesCount,_name,_party,0);
     }
 
     function vote (uint _candidateId) public{
