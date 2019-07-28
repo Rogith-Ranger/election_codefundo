@@ -1,6 +1,7 @@
 import React from 'react'
 import BarChart from './BarChart';
 import '../myStyles.css'
+import ChoroplethMap from './ChoroplethMap';
 class Table extends React.Component {
 
   handleClick = e =>{
@@ -9,8 +10,8 @@ class Table extends React.Component {
 
   render() {
     return (
-      <div className="div">
-      <table className='table table-light table-bordered table-striped table-hover'>
+      <div>
+      <table className='table table-hover'>
         <thead className="thead-dark">
           <tr>
             <th>#</th>
@@ -37,8 +38,15 @@ class Table extends React.Component {
             )
           })}
         </tbody>
-      </table>,
-      <BarChart candidates={this.props.candidates}/>
+      </table>
+      <div className="div">
+        <div className="barchart">
+          <BarChart candidates={this.props.candidates}/>
+        </div>
+        <div className="map">
+          <ChoroplethMap/>
+        </div>
+      </div>    
     </div>)
   }
 }

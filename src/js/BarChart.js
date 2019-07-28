@@ -55,7 +55,7 @@ var svg = d3.select("#barchart").append("svg")
       .selectAll("text")
       .attr("y", 0)
       .attr("x", 9)
-      .attr("dx","30")
+      .attr("dx","20")
       .attr("dy", ".35em")
       .attr("transform", "rotate(90)");
 

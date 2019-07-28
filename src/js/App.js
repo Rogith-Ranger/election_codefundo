@@ -88,11 +88,13 @@ class App extends React.Component {
           <br/>
           { this.state.loading || this.state.voting
             ? <p className='text-center'>Loading...</p>
-            : <Content
+            : <div className="pull-left">
+              <Content
                 account={this.state.account}
                 candidates={this.state.candidates}
                 hasVoted={this.state.hasVoted}
                 castVote={this.castVote} />
+              </div>
           }
         </div>
       </div>
