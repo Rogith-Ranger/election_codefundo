@@ -50,7 +50,8 @@ class App extends React.Component {
               candidates.push({
                 id: candidate[0],
                 name: candidate[1],
-                voteCount: candidate[2]
+                party: candidate[2],
+                voteCount: candidate[3]
               });
               this.setState({ candidates: candidates })
             });
@@ -75,7 +76,6 @@ class App extends React.Component {
   castVote(candidateId) {
     this.setState({ voting: true })
     this.electionInstance.vote(candidateId, { from: this.state.account }).then((result) =>{
-    console.log(result)
       this.setState({ hasVoted: true })
      }).then(()=>{this.fetchData();})
   }

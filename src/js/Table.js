@@ -10,13 +10,15 @@ class Table extends React.Component {
   render() {
     return (
       <div className="div">
-      <table className='table table-dark table-bordered table-striped table-hover'>
-        <thead className="thead-light">
+      <table className='table table-light table-bordered table-striped table-hover'>
+        <thead className="thead-dark">
           <tr>
             <th>#</th>
             <th>Name</th>
+            <th>Political Party</th>
             <th>Votes</th>
-            <th></th>
+            {!this.props.hasVoted?
+            <th></th>:null}
           </tr>
         </thead>
         <tbody >
@@ -25,6 +27,7 @@ class Table extends React.Component {
               <tr>
                 <th>{candidate.id.toNumber()}</th>
                 <td>{candidate.name}</td>
+                <td>{candidate.party}</td>
                 <td>{candidate.voteCount.toNumber()}</td>
                 {!this.props.hasVoted?
                 <td><button className = "voteButton" type = "button" value={candidate.id.toNumber()} onClick={this.handleClick}>Vote</button></td>
