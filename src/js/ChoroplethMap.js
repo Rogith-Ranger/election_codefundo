@@ -37,8 +37,8 @@ class ChoroplethMap extends Component {
         <Map center={position} zoom={4} preferCanvas={true} style={this.mapstyle}>
         <TileLayer
               url=
-              "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
-              // "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
+              // "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
+              "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
         />
         <GeoJSON key="whatever" data={shapeData} style={this.style} onEachFeature={ (feature, layer) => {
             layer.bindTooltip("<strong>State Name :</strong> "+feature.properties.stateName)}}/>
