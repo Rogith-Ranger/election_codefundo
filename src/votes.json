@@ -1,0 +1,42 @@
+[
+    {
+      "stateId": 26,
+      "party": "Party 1",
+      "votes": 87
+    },
+    {
+      "stateId": 12,
+      "party": "Party 2",
+      "votes": 45
+    },
+    {
+      "stateId": 36,
+      "party": "Party 3",
+      "votes": 55
+    },
+    {
+      "stateId": 15,
+      "party": "Party 4",
+      "votes": 63
+    },
+    {
+      "stateId": 16,
+      "party": "Party 5",
+      "votes": 54
+    },
+    {
+      "stateId": 29,
+      "party": "Party 2",
+      "votes": 72
+    },
+    {
+      "stateId": 14,
+      "party": "Party 1",
+      "votes": 24
+    },
+    {
+      "stateId": 14,
+      "party": "Party 3",
+      "votes": 56
+    }
+  ]
