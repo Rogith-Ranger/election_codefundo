@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Map, TileLayer ,GeoJSON} from 'react-leaflet'
 import shapeData from '../shapes.json'
+import votesData from '../votes.json'
 
 class ChoroplethMap extends Component {
 
@@ -32,6 +33,7 @@ class ChoroplethMap extends Component {
     
     render() {
         const position = [20.5937, 78.9629]
+        
         return (
       <div>
         <Map center={position} zoom={4} preferCanvas={true} style={this.mapstyle}>
@@ -41,7 +43,15 @@ class ChoroplethMap extends Component {
               "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
         />
         <GeoJSON key="whatever" data={shapeData} style={this.style} onEachFeature={ (feature, layer) => {
-            layer.bindTooltip("<strong>State Name :</strong> "+feature.properties.stateName)}}/>
+          let toolTiptext;
+          votesData.forEach(elem=>{
+            if(feature.properties.stateId === elem.stateId)
+            {
+              toolTiptext = "<strong>State Name : </strong>"+feature.properties.stateName+"<br/><strong>Party Name : </strong>" + elem.party +"<br/><strong>Votes : </strong>"+ elem.votes+"%"
+              layer.bindTooltip(toolTiptext)
+            }
+          })
+           }}/>
         </Map>
       </div>
         )
