@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.24;
 
 contract Election {
 
@@ -8,7 +8,6 @@ contract Election {
 		string party;
     	uint voteCount;
     }
-    
     mapping(address => bool)public voters;
     mapping(uint => Candidate) public candidates;
 

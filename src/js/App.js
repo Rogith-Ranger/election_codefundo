@@ -20,7 +20,7 @@ class App extends React.Component {
     if (typeof web3 != 'undefined') {
       this.web3Provider = web3.currentProvider
     } else {
-      this.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
+      this.web3Provider = new Web3.providers.HttpProvider("http://ethnbv6eg-dns-reg1.eastus.cloudapp.azure.com:8540");
     }
 
     this.web3 = new Web3(this.web3Provider)
@@ -53,6 +53,7 @@ class App extends React.Component {
                 party: candidate[2],
                 voteCount: candidate[3]
               });
+              candidates.sort((a,b)=>a.id-b.id)
               this.setState({ candidates: candidates })
             });
           }
