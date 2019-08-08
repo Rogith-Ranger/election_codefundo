@@ -1,7 +1,7 @@
 {
   "name": "election",
   "version": "1.0.0",
-  "description": "",
+  "description": "- Use Azure Blockchain to expedite counting & tallying and Secure Management of votes. Rather than waiting for days, the results can be displayed in seconds after close of Poll.",
   "main": "truffle.js",
   "directories": {
     "test": "test"
@@ -36,6 +36,16 @@
   "dependencies": {
     "d3": "^5.9.7",
     "leaflet": "^1.5.1",
-    "react-leaflet": "^2.4.0"
-  }
+    "react-leaflet": "^2.4.0",
+    "solc": "^0.4.8",
+    "truffle-hdwallet-provider": "^1.0.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rogith-Ranger/election_codefundo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Rogith-Ranger/election_codefundo/issues"
+  },
+  "homepage": "https://github.com/Rogith-Ranger/election_codefundo#readme"
 }

@@ -18,7 +18,8 @@
     display: inline-flex;
 }
 .row h1{
-    text-align: right
+margin-left: 85%;
+font-family: 'Courier New', Courier, monospace;
 }
 .table{
     margin-left:50%; 
