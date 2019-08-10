@@ -36,7 +36,7 @@ var svg = d3.select("#barchart").append("svg")
   candidates.forEach(function(d) {
     d.voteCount = +d.voteCount;
   });
-  var color = d3.scaleOrdinal(d3.schemeCategory10);
+  var color = d3.scaleOrdinal(d3.schemeDark2);
   x.domain(candidates.map(function(d) { return d.party; }));
   y.domain([0, d3.max(candidates, function(d) { return d.voteCount; })]);
 
