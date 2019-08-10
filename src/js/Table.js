@@ -41,10 +41,13 @@ class Table extends React.Component {
       </table>
       <div className="div">
         <div className="barchart">
+          <h5><b>Current Status</b></h5>
+          <hr style={{marginTop:0,marginBottom:0,backgroundColor:"darkgrey"}}/>
           <BarChart candidates={this.props.candidates}/>
         </div>
         <div className="map">
-           <h5>Previous Election Results</h5>
+           <h5><i>Previous Election Results</i></h5>
+           <hr style={{marginTop:0,marginBottom:0,backgroundColor:"darkgrey"}}/>
           <ChoroplethMap/>
         </div>
       </div>    
