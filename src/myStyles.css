@@ -33,7 +33,7 @@ font-family: 'Courier New', Courier, monospace;
 }
 
 .barchart{
-    height: 300px;
+    height: 330px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     margin-right:60px; 
 }
