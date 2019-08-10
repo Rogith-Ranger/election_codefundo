@@ -16,9 +16,9 @@ drawchart = () =>{
         dict["voteCount"] = candidate.voteCount.toNumber();
         candidates.push(dict);
     })
-    var margin = {top: 20, right: 20, bottom: 70, left: 40},
+    var margin = {top: 50, right: 20, bottom: 70, left: 40},
     width = 360 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom;
+    height = 300 - margin.top - margin.bottom;
 
 var x = d3.scaleBand()
           .range([0, width])
@@ -58,9 +58,22 @@ var svg = d3.select("#barchart").append("svg")
       .attr("dx","20")
       .attr("dy", ".35em")
       .attr("transform", "rotate(90)");
-
+      svg.append("text")             
+      .attr("transform",
+            "translate(" + (width/2) + " ," + 
+                           (height + margin.top + 10) + ")")
+      .style("text-anchor", "middle")
+      .style("font-size","15")
+      .text("Parties");
   svg.append("g")
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y).ticks(3));
+      svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Votes");      
 }
     render() {
         return (
