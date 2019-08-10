@@ -36,7 +36,7 @@ var svg = d3.select("#barchart").append("svg")
   candidates.forEach(function(d) {
     d.voteCount = +d.voteCount;
   });
-  var color = d3.scaleOrdinal(d3.schemeCategory10);
+  var color = d3.scaleOrdinal(d3.schemeDark2);
   x.domain(candidates.map(function(d) { return d.party; }));
   y.domain([0, d3.max(candidates, function(d) { return d.voteCount; })]);
 
@@ -63,17 +63,24 @@ var svg = d3.select("#barchart").append("svg")
             "translate(" + (width/2) + " ," + 
                            (height + margin.top + 10) + ")")
       .style("text-anchor", "middle")
-      .style("font-size","15")
-      .text("Parties");
+      .style("font-size","13")
+      .text("Party Name");
   svg.append("g")
-      .call(d3.axisLeft(y).ticks(3));
+      .call(d3.axisLeft(y).tickFormat(function(e){
+        if(Math.floor(e) != e)
+        {
+            return;
+        }
+        return e;
+    }));
       svg.append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - margin.left)
       .attr("x",0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("Votes");      
+      .style("font-size","13")
+      .text("Vote Count");      
 }
     render() {
         return (
