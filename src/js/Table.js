@@ -44,6 +44,7 @@ class Table extends React.Component {
           <BarChart candidates={this.props.candidates}/>
         </div>
         <div className="map">
+           <h5>Previous Election Results</h5>
           <ChoroplethMap/>
         </div>
       </div>    

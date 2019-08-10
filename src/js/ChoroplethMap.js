@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Map, TileLayer ,GeoJSON} from 'react-leaflet'
-import shapeData from '../shapes.json'
+import shapeData from '../constituency.json'
 import votesData from '../votes.json'
 
 class ChoroplethMap extends Component {
@@ -12,6 +12,8 @@ class ChoroplethMap extends Component {
     
     getColor = d => {
         return d > 33 ? '#800026' :
+               d > 32 ? 'green' :
+               d > 30 ? 'yellow' :
                d > 28  ? '#BD0026' :
                d > 22  ? '#E31A1C' :
                d > 18  ? '#FC4E2A' :
@@ -23,20 +25,20 @@ class ChoroplethMap extends Component {
     
     style = feature => {
         return {
-            fillColor: this.getColor(feature.properties.stateId),
+            fillColor: this.getColor(feature.properties.st_code),
             opacity: 1,
             color: 'white',
-            dashArray: '3',
+            dashArray: '1',
             fillOpacity: 0.7
         };
     }
     
     render() {
-        const position = [20.5937, 78.9629]
+        const position = [13.5937, 77.9629]
         
         return (
       <div>
-        <Map center={position} zoom={4} preferCanvas={true} style={this.mapstyle}>
+        <Map center={position} zoom={5} preferCanvas={true} style={this.mapstyle}>
         <TileLayer
               url=
               // "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
@@ -45,11 +47,11 @@ class ChoroplethMap extends Component {
         <GeoJSON key="whatever" data={shapeData} style={this.style} onEachFeature={ (feature, layer) => {
           let toolTiptext;
           votesData.forEach(elem=>{
-            if(feature.properties.stateId === elem.stateId)
-            {
-              toolTiptext = "<strong>State Name : </strong>"+feature.properties.stateName+"<br/><strong>Party Name : </strong>" + elem.party +"<br/><strong>Votes : </strong>"+ elem.votes+"%"
+            // if(feature.properties.stateId === elem.stateId)
+            // {
+              toolTiptext = "<strong>Constituency Name : </strong>"+feature.properties.pc_name+"<br/><strong>Leading Party : </strong>" + elem.party +"<br/><strong>Votes Polled : </strong>"+ elem.votes+"%"
               layer.bindTooltip(toolTiptext)
-            }
+            // }
           })
            }}/>
         </Map>
