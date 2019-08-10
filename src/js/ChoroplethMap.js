@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Map, TileLayer ,GeoJSON} from 'react-leaflet'
 import shapeData from '../constituency.json'
-import votesData from '../votes.json'
+import votesData from '../party.json'
 
 class ChoroplethMap extends Component {
 
@@ -47,11 +47,11 @@ class ChoroplethMap extends Component {
         <GeoJSON key="whatever" data={shapeData} style={this.style} onEachFeature={ (feature, layer) => {
           let toolTiptext;
           votesData.forEach(elem=>{
-            // if(feature.properties.stateId === elem.stateId)
-            // {
-              toolTiptext = "<strong>Constituency Name : </strong>"+feature.properties.pc_name+"<br/><strong>Leading Party : </strong>" + elem.party +"<br/><strong>Votes Polled : </strong>"+ elem.votes+"%"
+            if(feature.properties.pc_id === elem.pc_id)
+            {
+              toolTiptext = "<strong>Constituency Name : </strong>"+feature.properties.pc_name+"<br/><strong>Winning Party : </strong>" + elem.party +"<br/><strong>Votes Polled : </strong>"+ elem.votes+"%"
               layer.bindTooltip(toolTiptext)
-            // }
+            }
           })
            }}/>
         </Map>

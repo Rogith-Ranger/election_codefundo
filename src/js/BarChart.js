@@ -66,7 +66,13 @@ var svg = d3.select("#barchart").append("svg")
       .style("font-size","13")
       .text("Party Name");
   svg.append("g")
-      .call(d3.axisLeft(y).ticks(3));
+      .call(d3.axisLeft(y).tickFormat(function(e){
+        if(Math.floor(e) != e)
+        {
+            return;
+        }
+        return e;
+    }));
       svg.append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - margin.left)
