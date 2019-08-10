@@ -63,8 +63,8 @@ var svg = d3.select("#barchart").append("svg")
             "translate(" + (width/2) + " ," + 
                            (height + margin.top + 10) + ")")
       .style("text-anchor", "middle")
-      .style("font-size","15")
-      .text("Parties");
+      .style("font-size","13")
+      .text("Party Name");
   svg.append("g")
       .call(d3.axisLeft(y).ticks(3));
       svg.append("text")
@@ -73,7 +73,8 @@ var svg = d3.select("#barchart").append("svg")
       .attr("x",0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("Votes");      
+      .style("font-size","13")
+      .text("Vote Count");      
 }
     render() {
         return (
