@@ -17,7 +17,6 @@ class Table extends React.Component {
             <th>#</th>
             <th>Name</th>
             <th>Political Party</th>
-            <th>Votes</th>
             {!this.props.hasVoted?
             <th></th>:null}
           </tr>
@@ -29,7 +28,6 @@ class Table extends React.Component {
                 <th>{candidate.id.toNumber()}</th>
                 <td>{candidate.name}</td>
                 <td>{candidate.party}</td>
-                <td>{candidate.voteCount.toNumber()}</td>
                 {!this.props.hasVoted?
                 <td><button className = "voteButton" type = "button" value={candidate.id.toNumber()} onClick={this.handleClick}>Vote</button></td>
                 :null
