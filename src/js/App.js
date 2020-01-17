@@ -5,7 +5,7 @@ import TruffleContract from 'truffle-contract'
 import Election from '../../build/contracts/Election.json'
 import Content from './Content'
 import 'bootstrap/dist/css/bootstrap.css'
-
+import '../myStyles.css'
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -15,12 +15,14 @@ class App extends React.Component {
       hasVoted: false,
       loading: true,
       voting: false,
+      cname:"",
+      pname:""
     }
 
     if (typeof web3 != 'undefined') {
       this.web3Provider = web3.currentProvider
     } else {
-      this.web3Provider = new Web3.providers.HttpProvider("http://ethnbv6eg-dns-reg1.eastus.cloudapp.azure.com:8540");
+      this.web3Provider = new Web3.providers.HttpProvider("http://localhost:8545");
     }
 
     this.web3 = new Web3(this.web3Provider)
@@ -66,6 +68,12 @@ class App extends React.Component {
   }
 
   watchEvents() {
+    this.electionInstance.addEvent({}, {
+      fromBlock: 0,
+      toBlock: 'latest'
+    }).watch((error, event) => {
+      
+    })
     this.electionInstance.votedEvent({}, {
       fromBlock: 0,
       toBlock: 'latest'
@@ -81,10 +89,66 @@ class App extends React.Component {
      }).then(()=>{this.fetchData();})
   }
 
+  addCandidate(name,party){
+    this.electionInstance.addCandidate(name,party,{ from: this.state.account }).then(()=>{
+      alert(name+" has been added to the Candidate list")
+    }).then(()=>{
+      document.getElementById("myform").reset();
+      this.fetchData();
+    });
+  }
+
+  candidateNameHandler = (e) => {
+    this.setState({cname:e.target.value})
+  }
+
+  partyNameHandler = (e) => {
+    this.setState({pname:e.target.value})
+  }
+
+  onClickHandler = () => {
+    if (confirm('Are you sure you want to add this candidate to the list of candidates?')) {
+      this.addCandidate(this.state.cname, this.state.pname);
+  } 
+  }
+
   render() {
     return (
       <div className='row'>
         <div className='col-lg-12 text-center' >
+          {this.state.account === "0xba231f92186ba87985a50600e72e6a2d1e9fcb7c"?
+          <div >
+            <h2 className="middle">Election Commission</h2>
+            <form id="myform" className="middle"> 
+          Candidate Name: <input type = "text" id = "cname" onChange = {this.candidateNameHandler}/><br/><br/>
+          Party Name: &nbsp;&nbsp;&nbsp; <input type = "text" id = "pname" onChange = {this.partyNameHandler}/><br/><br/>
+          <input type = "button" onClick = {this.onClickHandler} value = "Add Candidate"/>
+          </form><br/>
+          <h3 className="middle">List of current Candidates:</h3>
+          <table className='table table-hover'>
+          <thead className="thead-dark">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Political Party</th>
+          </tr>
+          </thead>
+          <tbody >
+          {this.state.candidates.map((candidate) => {
+            return(
+              <tr>
+                <th>{candidate.id.toNumber()}</th>
+                <td>{candidate.name}</td>
+                <td>{candidate.party}</td>
+              </tr>
+          )}
+          )}
+          </tbody>
+          </table>
+          </div>
+          :
+          
+        <div>
           <h1>Election</h1>
           <br/>
           { this.state.loading || this.state.voting
@@ -97,6 +161,8 @@ class App extends React.Component {
                 castVote={this.castVote} />
               </div>
           }
+        </div>
+        }
         </div>
       </div>
     )
