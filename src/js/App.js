@@ -16,7 +16,11 @@ class App extends React.Component {
       loading: true,
       voting: false,
       cname:"",
-      pname:""
+      pname:"",
+      isResultsOut:false,
+      winner:"",
+      winnerParty:"",
+      winnerVote:0
     }
 
     if (typeof web3 != 'undefined') {
@@ -63,6 +67,18 @@ class App extends React.Component {
         this.electionInstance.voters(this.state.account).then((hasVoted) => {
           this.setState({ hasVoted, loading: false })
         })
+        this.electionInstance.resultsDeclared().then((result)=>{
+          this.setState({isResultsOut:result})
+        })
+        this.electionInstance.winner().then((result)=>{
+          this.setState({winner:result})
+        })
+        this.electionInstance.winnerParty().then((result)=>{
+          this.setState({winnerParty:result})
+        })
+        this.electionInstance.winnerVote().then((result)=>{
+          this.setState({winnerVote:result.toNumber()})
+        })
       })
     })
   }
@@ -79,6 +95,12 @@ class App extends React.Component {
       toBlock: 'latest'
     }).watch((error, event) => {
       this.setState({ voting: false })
+    })
+
+    this.electionInstance.declareEvent({}, {
+      fromBlock: 0,
+      toBlock: 'latest'
+    }).watch((error, event) => {
     })
   }
 
@@ -112,18 +134,41 @@ class App extends React.Component {
   } 
   }
 
+  publishResults = () => {
+    if(confirm("Are you sure you want to publish the results?"))
+    {
+      this.electionInstance.declare({ from: this.state.account }).then(()=>{
+        alert("Results have been published");
+        this.fetchData();
+      })
+    }
+  }
+
   render() {
     return (
       <div className='row'>
         <div className='col-lg-12 text-center' >
+          {
+            this.state.isResultsOut?
+          <div>
+            <h1 className="middle" style={{marginLeft:"50%"}}>Results have been Declared</h1>
+            <br/>
+            <h3 className="middle"><b>Winning Candidate: </b> {this.state.winner}</h3><br/>
+            <h3 className="middle"><b>Winning Party: </b>{this.state.winnerParty}</h3><br/>
+            <h3 className="middle"><b>Total votes secured: </b>{this.state.winnerVote}</h3><br/>
+          </div>
+          :
+          <div>
           {this.state.account === "0xba231f92186ba87985a50600e72e6a2d1e9fcb7c"?
           <div >
             <h2 className="middle">Election Commission</h2>
             <form id="myform" className="middle"> 
-          Candidate Name: <input type = "text" id = "cname" onChange = {this.candidateNameHandler}/><br/><br/>
-          Party Name: &nbsp;&nbsp;&nbsp; <input type = "text" id = "pname" onChange = {this.partyNameHandler}/><br/><br/>
-          <input type = "button" onClick = {this.onClickHandler} value = "Add Candidate"/>
-          </form><br/>
+                Candidate Name: <input type = "text" id = "cname" onChange = {this.candidateNameHandler}/><br/><br/>
+                Party Name: &nbsp;&nbsp;&nbsp; <input type = "text" id = "pname" onChange = {this.partyNameHandler}/><br/><br/>
+                <input type = "button" onClick = {this.onClickHandler} value = "Add Candidate"/>
+            </form><br/>
+            <input type = "button" value = "Publish Results" onClick = {this.publishResults} className = "middle results"/>
+            <br/><br/>
           <h3 className="middle">List of current Candidates:</h3>
           <table className='table table-hover'>
           <thead className="thead-dark">
@@ -162,7 +207,7 @@ class App extends React.Component {
               </div>
           }
         </div>
-        }
+        }</div>}
         </div>
       </div>
     )
