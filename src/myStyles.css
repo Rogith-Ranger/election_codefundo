@@ -42,3 +42,13 @@ font-family: 'Courier New', Courier, monospace;
     margin-left: 50%;
     font-family: 'Courier New', Courier, monospace;
 }
+
+.results{
+    background-color: red;
+    color:white;
+    border-style: none;
+    border-radius: 5px;
+}
+.results:hover{
+    background-color: rgba(255, 0, 0, 0.74);
+}

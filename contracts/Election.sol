@@ -9,17 +9,20 @@ contract Election {
     	uint voteCount;
     }
     mapping(address => bool)public voters;
+	bool public resultsDeclared = false;
     mapping(uint => Candidate) public candidates;
-
+	string public winner;
+	string public winnerParty;
+	uint public winnerVote;
     uint public candidatesCount;
 
     event votedEvent (
     	uint indexed _candidateId
     	);
-	
 	event addEvent (
     	string _name
     	);
+	event declareEvent();
 
     constructor () public {
    		addCandidate("Candidate 1","Party 1");
@@ -41,4 +44,23 @@ contract Election {
     	candidates[_candidateId].voteCount++;
     	emit votedEvent(_candidateId);
     }
+
+	function declare() public{
+		require(!voters[msg.sender]);
+    	resultsDeclared = true;
+		uint max = 0;
+		uint id = 1;
+		for(uint i = 1;i <= candidatesCount;i++)
+		{
+			if(max < candidates[i].voteCount)
+				{
+					max = candidates[i].voteCount;
+					id = i;
+				}
+		}
+		winner = candidates[id].name;
+		winnerParty = candidates[id].party;
+		winnerVote = candidates[id].voteCount;
+		emit declareEvent();
+	}
 }
