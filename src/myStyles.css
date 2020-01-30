@@ -13,7 +13,7 @@
     background-color:rgb(255, 136, 0);
 }
 .div{
-    margin-left:40%;
+    margin-left:10%;
     margin-top: 30px;
     display: inline-flex;
 }
@@ -51,4 +51,16 @@ font-family: 'Courier New', Courier, monospace;
 }
 .results:hover{
     background-color: rgba(255, 0, 0, 0.74);
+}
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 160px;					
+    height: 30px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: rgba(207, 204, 205);
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
 }
