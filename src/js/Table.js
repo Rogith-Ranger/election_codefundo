@@ -2,12 +2,22 @@ import React from 'react'
 import BarChart from './BarChart';
 import '../myStyles.css'
 import ChoroplethMap from './ChoroplethMap';
+import PieChart from './PieChart';
 class Table extends React.Component {
-
+  state = {
+    toggle:false
+  }
   handleClick = e =>{
     this.props.castVote(e.target.value)
   }
 
+  toggleHandler = () =>{
+    if(this.state.toggle)
+    this.setState({toggle:false})
+    else
+    this.setState({toggle:true})
+  }
+  
   render() {
     return (
       <div>
@@ -42,6 +52,11 @@ class Table extends React.Component {
           <h5><b>Current Status</b></h5>
           <hr style={{marginTop:0,marginBottom:0,backgroundColor:"darkgrey"}}/>
           <BarChart candidates={this.props.candidates}/>
+           </div><br/>
+           <div className="barchart">
+            <h5><b>Current Status</b></h5>
+          <hr style={{marginTop:0,marginBottom:0,backgroundColor:"darkgrey"}}/>
+          <PieChart candidates={this.props.candidates}/>
         </div>
         <div className="map">
            <h5><i>Previous Election Results</i></h5>
