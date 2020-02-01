@@ -18,7 +18,7 @@ class PieChart extends Component {
         d.voteCount = +d.voteCount;
       });
       var margin = {top: 50, right: 20, bottom: 70, left: 40},
-    w = 360 - margin.left - margin.right,
+    w = 390 - margin.left - margin.right,
     h = 360 - margin.top - margin.bottom,
     radius = Math.min(w, h) / 2 ;
     h = h+50;
@@ -60,6 +60,30 @@ arc.append("path")
     .attr("fill", function(d) { return color(d.data.voteCount); })
     .on("mouseover",handleMouseOver)
     .on("mouseout", handleMouseOut);
+
+    var legendG = svg.selectAll(".legend") // note appending it to mySvg and not svg to make positioning easier
+    .data(pie(candidates))
+    .enter().append("g")
+    .attr("transform", function(d,i){
+      return "translate(" + (w - 100) + "," + (i * 15) + ")"; // place each legend on the right and bump each one down 15 pixels
+    })
+    .attr("class", "legend");   
+  
+  legendG.append("rect") // make a matching color rect
+    .attr("width", 10)
+    .attr("height", 10)
+    .attr("fill", function(d, i) {
+      return color(d.data.voteCount);
+    });
+  
+  legendG.append("text") // add the text
+    .text(function(d){
+      return d.data.party;
+    })
+    .style("font-size", 12)
+    .attr("y", 10)
+    .attr("x", 11);
+
     function handleMouseOut(d,i)
     { div.transition()		
                 .duration(500)		
