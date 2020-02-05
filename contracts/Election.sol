@@ -9,6 +9,7 @@ contract Election {
     	uint voteCount;
     }
     mapping(address => bool)public voters;
+	mapping(address => string)public loggedUser;
 	bool public resultsDeclared = false;
     mapping(uint => Candidate) public candidates;
 	string public winner;
@@ -23,6 +24,7 @@ contract Election {
     	string _name
     	);
 	event declareEvent();
+	event loginEvent();
 
     constructor () public {
    		addCandidate("Candidate 1","Party 1");
@@ -45,6 +47,11 @@ contract Election {
     	emit votedEvent(_candidateId);
     }
 
+	function loginUser(string memory _data)public{
+		require(!voters[msg.sender]);
+		loggedUser[msg.sender] = _data;
+		emit loginEvent();
+	}
 	function declare() public{
 		require(!voters[msg.sender]);
     	resultsDeclared = true;

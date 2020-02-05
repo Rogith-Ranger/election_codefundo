@@ -10,7 +10,7 @@ module.exports = {
       port: 8545
     },
     azureNetwork: {
-      provider: new HDWalletProvider("sand useless seed program lizard mushroom asthma palm knee resemble invite game","http://ethnbv6eg-dns-reg1.eastus.cloudapp.azure.com:8540"),
+      provider: new HDWalletProvider("sand useless seed program lizard mushroom asthma palm knee resemble invite game","http://ethubuadn-dns-reg1.eastus.cloudapp.azure.com:8540"),
       network_id: "*",
       gasPrice:0
     }

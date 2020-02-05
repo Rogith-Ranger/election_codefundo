@@ -3,9 +3,11 @@ import BarChart from './BarChart';
 import '../myStyles.css'
 import ChoroplethMap from './ChoroplethMap';
 import PieChart from './PieChart';
+import TweetModel from './TweetModel';
 class Table extends React.Component {
   state = {
-    toggle:false
+    toggle:false,
+    buttonText:"Previous Election Results"
   }
   handleClick = e =>{
     this.props.castVote(e.target.value)
@@ -13,9 +15,9 @@ class Table extends React.Component {
 
   toggleHandler = () =>{
     if(this.state.toggle)
-    this.setState({toggle:false})
+    this.setState({toggle:false,buttonText:"Previous Election Results"})
     else
-    this.setState({toggle:true})
+    this.setState({toggle:true,buttonText:"Current Twitter Analysis"})
   }
   
   render() {
@@ -59,9 +61,19 @@ class Table extends React.Component {
           <PieChart candidates={this.props.candidates}/>
         </div>
         <div className="map">
-           <h5><i>Previous Election Results</i></h5>
+        <input type="button" className="button1 bouncy" onClick={this.toggleHandler} value={this.state.buttonText}/>
+          {this.state.toggle?
+          <div>
+             <h5><i>Previous Election Results</i></h5>
            <hr style={{marginTop:0,marginBottom:0,backgroundColor:"darkgrey"}}/>
           <ChoroplethMap/>
+        </div>:
+          <div>
+           <h5><i>Current Twitter Analysis</i></h5>
+           <hr style={{marginTop:0,marginBottom:0,backgroundColor:"darkgrey"}}/>
+          <TweetModel/>
+          </div>
+          }
         </div>
       </div>    
     </div>)
