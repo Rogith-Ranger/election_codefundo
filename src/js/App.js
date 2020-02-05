@@ -6,6 +6,7 @@ import Election from '../../build/contracts/Election.json'
 import Content from './Content'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../myStyles.css'
+import FormPage from './Login.js'
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -20,7 +21,8 @@ class App extends React.Component {
       isResultsOut:false,
       winner:"",
       winnerParty:"",
-      winnerVote:0
+      winnerVote:0,
+      isLoggedIn:false
     }
 
     if (typeof web3 != 'undefined') {
@@ -143,12 +145,17 @@ class App extends React.Component {
       })
     }
   }
+  loginSuccess = () => {
+    this.setState({isLoggedIn:true})
+  }
 
   render() {
     return (
       <div className='row'>
         <div className='col-lg-12 text-center' >
           {
+            !this.state.isLoggedIn?
+            <FormPage isLoggedIn={this.loginSuccess}/>:
             this.state.isResultsOut?
           <div>
             <h1 className="middle" style={{marginLeft:"50%"}}>Results have been Declared</h1>
