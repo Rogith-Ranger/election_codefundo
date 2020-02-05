@@ -22,7 +22,8 @@ class App extends React.Component {
       winner:"",
       winnerParty:"",
       winnerVote:0,
-      isLoggedIn:false
+      isLoggedIn:false,
+      secretData:""
     }
 
     if (typeof web3 != 'undefined') {
@@ -145,8 +146,15 @@ class App extends React.Component {
       })
     }
   }
-  loginSuccess = () => {
+  loginUser = () => {
+    this.electionInstance.loginUser(this.state.secretData,{from:this.state.account}).then(()=>{
+      this.fetchData();
+    })
+  }
+  loginSuccess = (encryptedData) => {
+    this.setState({secretData:encryptedData})
     this.setState({isLoggedIn:true})
+    this.loginUser()
   }
 
   render() {
