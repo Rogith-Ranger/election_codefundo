@@ -162,8 +162,6 @@ class App extends React.Component {
       <div className='row'>
         <div className='col-lg-12 text-center' >
           {
-            !this.state.isLoggedIn?
-            <FormPage isLoggedIn={this.loginSuccess}/>:
             this.state.isResultsOut?
           <div>
             <h1 className="middle" style={{marginLeft:"50%"}}>Results have been Declared</h1>
@@ -207,7 +205,8 @@ class App extends React.Component {
           </table>
           </div>
           :
-          
+          !this.state.isLoggedIn?
+            <FormPage isLoggedIn={this.loginSuccess}/>:
         <div>
           <h1>Election</h1>
           <br/>
