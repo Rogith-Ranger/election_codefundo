@@ -22,7 +22,7 @@ class App extends React.Component {
       winner:"",
       winnerParty:"",
       winnerVote:0,
-      isLoggedIn:true,
+      isLoggedIn:false,
       secretData:""
     }
 
