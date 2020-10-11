@@ -173,7 +173,7 @@ class App extends React.Component {
           </div>
           :
           <div>
-          {this.state.account === "0xba231f92186ba87985a50600e72e6a2d1e9fcb7c"?
+          {this.state.account === "0x4fefc50f1c151177c51a4569f42f6a6a75c2c80f"?
           <div >
             <h2 className="middle">Election Commission</h2>
             <form id="myform" className="middle"> 
@@ -213,13 +213,14 @@ class App extends React.Component {
           <br/>
           { this.state.loading || this.state.voting
             ? <p className='text-center'>Loading...</p>
-            : <div className="pull-left">
-              <Content
-                account={this.state.account}
-                candidates={this.state.candidates}
-                hasVoted={this.state.hasVoted}
-                castVote={this.castVote} />
-              </div>
+            :<p className='text-center'>Under Development Loading...</p>
+            // : <div className="pull-left">
+            //   <Content
+            //     account={this.state.account}
+            //     candidates={this.state.candidates}
+            //     hasVoted={this.state.hasVoted}
+            //     castVote={this.castVote} />
+            //   </div>
           }
         </div>
         }</div>}
