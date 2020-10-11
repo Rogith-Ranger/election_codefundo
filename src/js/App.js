@@ -22,14 +22,14 @@ class App extends React.Component {
       winner:"",
       winnerParty:"",
       winnerVote:0,
-      isLoggedIn:false,
+      isLoggedIn:true,
       secretData:""
     }
 
     if (typeof web3 != 'undefined') {
       this.web3Provider = web3.currentProvider
     } else {
-      this.web3Provider = new Web3.providers.HttpProvider("http://localhost:8545");
+      this.web3Provider = new Web3.providers.HttpProvider("http://localhost:7545");
     }
 
     this.web3 = new Web3(this.web3Provider)
@@ -42,6 +42,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    window.ethereum.enable();
     this.fetchData();
   }
 

@@ -28,12 +28,13 @@
     "reactstrap": "^5.0.0-beta.2",
     "style-loader": "^0.20.2",
     "truffle-contract": "^3.0.7",
-    "web3": "^0.20.5",
+    "web3": "^0.20.7",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@truffle/contract": "^4.2.25",
     "axios": "^0.19.2",
     "cryptr": "^6.0.1",
     "d3": "^5.9.7",
@@ -43,7 +44,7 @@
     "react-bootstrap": "^1.0.0-beta.16",
     "react-bootstrap-modal": "^4.2.0",
     "react-leaflet": "^2.4.0",
-    "solc": "^0.4.8",
+    "solc": "^0.7.3",
     "truffle-hdwallet-provider": "^1.0.15"
   },
   "repository": {
