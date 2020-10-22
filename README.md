@@ -1,4 +1,4 @@
-# Idea for codefundo++ :
+# Idea:
 
 - Use Azure Blockchain to expedite counting & tallying and Secure Management of votes. Rather than waiting for days, the results can be displayed in seconds after close of Poll.
 
@@ -11,3 +11,10 @@
 # Technology Stack
 ReactJS and other Javascript frameworks for visualization.
 Blockchain: Ethereum and Solidity
+
+# To run
+Install Metamask and Ganache and copy paste the wallet phrase to truffle-config.js.
+npm install
+truffle migrate
+npm start
+Import or create accounts in metamask.
