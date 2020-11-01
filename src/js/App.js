@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import Web3 from 'web3'
 import TruffleContract from 'truffle-contract'
 import Election from '../../build/contracts/Election.json'
-import Content from './Content'
+// import Content from './Content'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../myStyles.css'
 import FormPage from './Login.js'
@@ -176,13 +176,14 @@ class App extends React.Component {
           {this.state.account === "0x4fefc50f1c151177c51a4569f42f6a6a75c2c80f"?
           <div >
             <h2 className="middle">Election Commission</h2>
-            <form id="myform" className="middle"> 
+            {/* <form id="myform" className="middle"> 
                 Candidate Name: <input type = "text" id = "cname" onChange = {this.candidateNameHandler}/><br/><br/>
                 Party Name: &nbsp;&nbsp;&nbsp; <input type = "text" id = "pname" onChange = {this.partyNameHandler}/><br/><br/>
                 <input type = "button" onClick = {this.onClickHandler} value = "Add Candidate"/>
-            </form><br/>
-            <input type = "button" value = "Publish Results" onClick = {this.publishResults} className = "middle results"/>
-            <br/><br/>
+            </form>
+            <br/>*/}
+            <input type = "button" value = "Publish Results" onClick={()=>alert("Results Published")} className = "middle results"/>
+            <br/><br/> 
           <h3 className="middle">List of current Candidates:</h3>
           <table className='table table-hover'>
           <thead className="thead-dark">
@@ -213,13 +214,14 @@ class App extends React.Component {
           <br/>
           { this.state.loading || this.state.voting
             ? <p className='text-center'>Loading...</p>
-            : <div className="pull-left">
-              <Content
-                account={this.state.account}
-                candidates={this.state.candidates}
-                hasVoted={this.state.hasVoted}
-                castVote={this.castVote} />
-              </div>
+            :<p>Logged in as Voter...</p>
+            // : <div className="pull-left">
+            //   <Content
+            //     account={this.state.account}
+            //     candidates={this.state.candidates}
+            //     hasVoted={this.state.hasVoted}
+            //     castVote={this.castVote} />
+            //   </div>
           }
         </div>
         }</div>}

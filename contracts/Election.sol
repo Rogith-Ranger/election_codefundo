@@ -39,14 +39,7 @@ contract Election {
 		emit addEvent(_name);
     }
 
-    function vote (uint _candidateId) public{
-    	require(!voters[msg.sender]);
-    	require(_candidateId >0 && _candidateId <= candidatesCount);
-    	voters[msg.sender] = true;
-    	candidates[_candidateId].voteCount++;
-    	emit votedEvent(_candidateId);
-    }
-
+    
 	function loginUser(string memory _data)public{
 		require(!voters[msg.sender]);
 		loggedUser[msg.sender] = _data;
