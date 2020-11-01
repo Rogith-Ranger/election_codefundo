@@ -39,28 +39,4 @@ contract Election {
 		emit addEvent(_name);
     }
 
-    
-	function loginUser(string memory _data)public{
-		require(!voters[msg.sender]);
-		loggedUser[msg.sender] = _data;
-		emit loginEvent();
-	}
-	function declare() public{
-		require(!voters[msg.sender]);
-    	resultsDeclared = true;
-		uint max = 0;
-		uint id = 1;
-		for(uint i = 1;i <= candidatesCount;i++)
-		{
-			if(max < candidates[i].voteCount)
-				{
-					max = candidates[i].voteCount;
-					id = i;
-				}
-		}
-		winner = candidates[id].name;
-		winnerParty = candidates[id].party;
-		winnerVote = candidates[id].voteCount;
-		emit declareEvent();
-	}
 }
