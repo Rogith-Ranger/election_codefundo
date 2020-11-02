@@ -37,7 +37,7 @@ class App extends React.Component {
     this.election = TruffleContract(Election)
     this.election.setProvider(this.web3Provider)
 
-    this.castVote = this.castVote.bind(this)
+    // this.castVote = this.castVote.bind(this)
     this.watchEvents = this.watchEvents.bind(this)
   }
 
@@ -68,21 +68,6 @@ class App extends React.Component {
             });
           }
         })
-        this.electionInstance.voters(this.state.account).then((hasVoted) => {
-          this.setState({ hasVoted, loading: false })
-        })
-        this.electionInstance.resultsDeclared().then((result)=>{
-          this.setState({isResultsOut:result})
-        })
-        this.electionInstance.winner().then((result)=>{
-          this.setState({winner:result})
-        })
-        this.electionInstance.winnerParty().then((result)=>{
-          this.setState({winnerParty:result})
-        })
-        this.electionInstance.winnerVote().then((result)=>{
-          this.setState({winnerVote:result.toNumber()})
-        })
       })
     })
   }
@@ -94,26 +79,8 @@ class App extends React.Component {
     }).watch((error, event) => {
       
     })
-    this.electionInstance.votedEvent({}, {
-      fromBlock: 0,
-      toBlock: 'latest'
-    }).watch((error, event) => {
-      this.setState({ voting: false })
-    })
-
-    this.electionInstance.declareEvent({}, {
-      fromBlock: 0,
-      toBlock: 'latest'
-    }).watch((error, event) => {
-    })
   }
 
-  castVote(candidateId) {
-    this.setState({ voting: true })
-    this.electionInstance.vote(candidateId, { from: this.state.account }).then((result) =>{
-      this.setState({ hasVoted: true })
-     }).then(()=>{this.fetchData();})
-  }
 
   addCandidate(name,party){
     this.electionInstance.addCandidate(name,party,{ from: this.state.account }).then(()=>{
@@ -124,29 +91,7 @@ class App extends React.Component {
     });
   }
 
-  candidateNameHandler = (e) => {
-    this.setState({cname:e.target.value})
-  }
 
-  partyNameHandler = (e) => {
-    this.setState({pname:e.target.value})
-  }
-
-  onClickHandler = () => {
-    if (confirm('Are you sure you want to add this candidate to the list of candidates?')) {
-      this.addCandidate(this.state.cname, this.state.pname);
-  } 
-  }
-
-  publishResults = () => {
-    if(confirm("Are you sure you want to publish the results?"))
-    {
-      this.electionInstance.declare({ from: this.state.account }).then(()=>{
-        alert("Results have been published");
-        this.fetchData();
-      })
-    }
-  }
   loginUser = () => {
     this.electionInstance.loginUser(this.state.secretData,{from:this.state.account}).then(()=>{
       this.fetchData();

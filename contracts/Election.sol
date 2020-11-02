@@ -39,4 +39,10 @@ contract Election {
 		emit addEvent(_name);
     }
 
+	function loginUser(string memory _data)public{
+		require(!voters[msg.sender]);
+		loggedUser[msg.sender] = _data;
+		emit loginEvent();
+	}
+	
 }
