@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import Web3 from 'web3'
 import TruffleContract from 'truffle-contract'
 import Election from '../../build/contracts/Election.json'
-import Content from './Content'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../myStyles.css'
 import FormPage from './Login.js'
@@ -37,7 +36,6 @@ class App extends React.Component {
     this.election = TruffleContract(Election)
     this.election.setProvider(this.web3Provider)
 
-    this.castVote = this.castVote.bind(this)
     this.watchEvents = this.watchEvents.bind(this)
   }
 
@@ -68,9 +66,7 @@ class App extends React.Component {
             });
           }
         })
-        this.electionInstance.voters(this.state.account).then((hasVoted) => {
-          this.setState({ hasVoted, loading: false })
-        })
+       
         this.electionInstance.resultsDeclared().then((result)=>{
           this.setState({isResultsOut:result})
         })
@@ -94,13 +90,7 @@ class App extends React.Component {
     }).watch((error, event) => {
       
     })
-    this.electionInstance.votedEvent({}, {
-      fromBlock: 0,
-      toBlock: 'latest'
-    }).watch((error, event) => {
-      this.setState({ voting: false })
-    })
-
+   
     this.electionInstance.declareEvent({}, {
       fromBlock: 0,
       toBlock: 'latest'
@@ -108,12 +98,6 @@ class App extends React.Component {
     })
   }
 
-  castVote(candidateId) {
-    this.setState({ voting: true })
-    this.electionInstance.vote(candidateId, { from: this.state.account }).then((result) =>{
-      this.setState({ hasVoted: true })
-     }).then(()=>{this.fetchData();})
-  }
 
   addCandidate(name,party){
     this.electionInstance.addCandidate(name,party,{ from: this.state.account }).then(()=>{
@@ -214,11 +198,7 @@ class App extends React.Component {
           { this.state.loading || this.state.voting
             ? <p className='text-center'>Loading...</p>
             : <div className="pull-left">
-              <Content
-                account={this.state.account}
-                candidates={this.state.candidates}
-                hasVoted={this.state.hasVoted}
-                castVote={this.castVote} />
+              Voter Page.
               </div>
           }
         </div>
