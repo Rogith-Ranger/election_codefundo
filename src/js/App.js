@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom'
 import Web3 from 'web3'
 import TruffleContract from 'truffle-contract'
 import Election from '../../build/contracts/Election.json'
-import 'bootstrap/dist/css/bootstrap.css'
-import '../myStyles.css'
+// import 'bootstrap/dist/css/bootstrap.css'
 import FormPage from './Login.js'
 class App extends React.Component {
   constructor(props) {
@@ -168,8 +167,8 @@ class App extends React.Component {
             <input type = "button" value = "Publish Results" onClick = {this.publishResults} className = "middle results"/>
             <br/><br/>
           <h3 className="middle">List of current Candidates:</h3>
-          <table className='table table-hover'>
-          <thead className="thead-dark">
+          <table className=''>
+          <thead className="">
           <tr>
             <th>#</th>
             <th>Name</th>
