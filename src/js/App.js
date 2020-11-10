@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom'
 import Web3 from 'web3'
 import TruffleContract from 'truffle-contract'
 import Election from '../../build/contracts/Election.json'
-// import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import '../myStyles.css'
+import Content from './Content.js'
 import FormPage from './Login.js'
 class App extends React.Component {
   constructor(props) {
@@ -16,12 +18,14 @@ class App extends React.Component {
       voting: false,
       cname:"",
       pname:"",
+      rname:"",
       isResultsOut:false,
       winner:"",
       winnerParty:"",
       winnerVote:0,
       isLoggedIn:false,
-      secretData:""
+      secretData:"",
+      isElectionStart:false
     }
 
     if (typeof web3 != 'undefined') {
@@ -34,7 +38,7 @@ class App extends React.Component {
 
     this.election = TruffleContract(Election)
     this.election.setProvider(this.web3Provider)
-
+    this.castVote = this.castVote.bind(this)
     this.watchEvents = this.watchEvents.bind(this)
   }
 
@@ -58,16 +62,22 @@ class App extends React.Component {
                 id: candidate[0],
                 name: candidate[1],
                 party: candidate[2],
-                voteCount: candidate[3]
+                region: candidate[3],
+                voteCount: candidate[4]
               });
               candidates.sort((a,b)=>a.id-b.id)
               this.setState({ candidates: candidates })
             });
           }
         })
-       
+        this.electionInstance.voters(this.state.account).then((hasVoted) => {
+          this.setState({ hasVoted, loading: false })
+        })
         this.electionInstance.resultsDeclared().then((result)=>{
           this.setState({isResultsOut:result})
+        })
+        this.electionInstance.startElection().then((result)=>{
+          this.setState({isElectionStart:result})
         })
         this.electionInstance.winner().then((result)=>{
           this.setState({winner:result})
@@ -89,7 +99,12 @@ class App extends React.Component {
     }).watch((error, event) => {
       
     })
-   
+    this.electionInstance.votedEvent({}, {
+      fromBlock: 0,
+      toBlock: 'latest'
+    }).watch((error, event) => {
+      this.setState({ voting: false })
+    })
     this.electionInstance.declareEvent({}, {
       fromBlock: 0,
       toBlock: 'latest'
@@ -97,9 +112,15 @@ class App extends React.Component {
     })
   }
 
+  castVote(candidateId) {
+    this.setState({ voting: true })
+    this.electionInstance.vote(candidateId, { from: this.state.account }).then((result) =>{
+      this.setState({ hasVoted: true })
+     }).then(()=>{this.fetchData();})
+  }
 
-  addCandidate(name,party){
-    this.electionInstance.addCandidate(name,party,{ from: this.state.account }).then(()=>{
+  addCandidate(name,party,region){
+    this.electionInstance.addCandidate(name,party,region,{ from: this.state.account }).then(()=>{
       alert(name+" has been added to the Candidate list")
     }).then(()=>{
       document.getElementById("myform").reset();
@@ -114,10 +135,12 @@ class App extends React.Component {
   partyNameHandler = (e) => {
     this.setState({pname:e.target.value})
   }
-
+  regionHandler = (e) => {
+    this.setState({rname:e.target.value})
+  }
   onClickHandler = () => {
     if (confirm('Are you sure you want to add this candidate to the list of candidates?')) {
-      this.addCandidate(this.state.cname, this.state.pname);
+      this.addCandidate(this.state.cname, this.state.pname, this.state.rname);
   } 
   }
 
@@ -130,6 +153,17 @@ class App extends React.Component {
       })
     }
   }
+
+  beginElection = () => {
+    if(confirm("Are you sure you want to begin the Election?"))
+    {
+      this.electionInstance.beginElection({ from: this.state.account }).then(()=>{
+        alert("Election has begun");
+        this.fetchData();
+      })
+    }
+  }
+
   loginUser = () => {
     this.electionInstance.loginUser(this.state.secretData,{from:this.state.account}).then(()=>{
       this.fetchData();
@@ -159,20 +193,24 @@ class App extends React.Component {
           {this.state.account === "0x4fefc50f1c151177c51a4569f42f6a6a75c2c80f"?
           <div >
             <h2 className="middle">Election Commission</h2>
+            <input type = "button" value = "Start Election" onClick = {this.beginElection} className = "middle results" disabled={this.state.isElectionStart}/>
+            <br/><br/>
             <form id="myform" className="middle"> 
                 Candidate Name: <input type = "text" id = "cname" onChange = {this.candidateNameHandler}/><br/><br/>
                 Party Name: &nbsp;&nbsp;&nbsp; <input type = "text" id = "pname" onChange = {this.partyNameHandler}/><br/><br/>
-                <input type = "button" onClick = {this.onClickHandler} value = "Add Candidate"/>
+                Region: &nbsp;&nbsp;&nbsp;<input type = "text" id = "rname" onChange = {this.regionHandler}/><br/><br/>
+                <input type = "button" onClick = {this.onClickHandler} value = "Add Candidate" disabled = {this.state.isElectionStart}/>
             </form><br/>
-            <input type = "button" value = "Publish Results" onClick = {this.publishResults} className = "middle results"/>
+            <input type = "button" value = "Publish Results" onClick = {this.publishResults} className = "middle results" disabled = {!this.state.isElectionStart}/>
             <br/><br/>
           <h3 className="middle">List of current Candidates:</h3>
-          <table className=''>
-          <thead className="">
+          <table className='table table-hover'>
+          <thead className="thead-dark">
           <tr>
             <th>#</th>
             <th>Name</th>
             <th>Political Party</th>
+            <th>Region</th>
           </tr>
           </thead>
           <tbody >
@@ -182,6 +220,7 @@ class App extends React.Component {
                 <th>{candidate.id.toNumber()}</th>
                 <td>{candidate.name}</td>
                 <td>{candidate.party}</td>
+                <td>{candidate.region}</td>
               </tr>
           )}
           )}
@@ -196,11 +235,16 @@ class App extends React.Component {
           <br/>
           { this.state.loading || this.state.voting
             ? <p className='text-center'>Loading...</p>
-            : <div className="pull-left">
-              Voter Page.
-              </div>
+            :<div className="pull-left">
+            <Content
+              account={this.state.account}
+              candidates={this.state.candidates}
+              hasVoted={this.state.hasVoted}
+              castVote={this.castVote} />
+            </div>
           }
         </div>
+        
         }</div>}
         </div>
       </div>
